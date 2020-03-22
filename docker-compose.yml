@@ -1,0 +1,27 @@
+version: '3'
+services: 
+    web:
+        build: './apache'
+        image: apache_service
+        ports:
+            - "8080:80"
+        volumes:
+            - ./code:/var/www/html
+        links:
+            - app
+    app:
+        build: './php'
+        image: php_service
+        volumes:
+            - ./code:/var/www/html
+        links:
+            - db
+    db:
+        image: mysql:latest
+        environment: 
+            MYSQL_ROOT_PASSWORD: root_password
+            MYSQL_DATABASE: default_db
+            MYSQL_USER: user_name
+            MYSQL_PASSWORD: user_password
+        ports: 
+            - "13306:3306"
